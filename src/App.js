@@ -6,12 +6,9 @@ import ChatInput from './components/ChatInput'
 import { connect, sendMsg } from "./api";
 
 class App extends Component {
-  constructor(props) {
-    super();
-    this.state = {
+    state = {
       chatHistory: []
     }
-  }
 
   send(event) {
     if(event.keyCode === 13) {

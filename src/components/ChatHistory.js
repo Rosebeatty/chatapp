@@ -2,18 +2,17 @@ import React, { Component } from "react";
 import '../ChatHistory.css' 
 import Message from './Message'
 
-class ChatHistory extends Component {
-    render() {
-        console.log(this.props.chatHistory);
-        const messages = this.props.chatHistory.map(msg => <Message message={msg.data} />);
-      
-        return (
-          <div className='ChatHistory'>
-            <h2>Chat History</h2>
+
+function ChatHistory(props) {
+  console.log(props.chatHistory);
+  const messages = props.chatHistory.map(msg => <Message key={Math.random()} message={msg.data} />);
+        
+  return (
+      <div className='ChatHistory'>
+          <h2>Chat History</h2>
             {messages}
-          </div>
-        );
-      };
+      </div>
+          );
 }
 
 export default ChatHistory;
