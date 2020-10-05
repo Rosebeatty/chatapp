@@ -23,7 +23,6 @@ class App extends Component {
       this.setState(prevState => ({
         chatHistory: [...this.state.chatHistory, msg]
       }))
-      console.log(this.state);
     });
   }
 
@@ -37,5 +36,21 @@ class App extends Component {
     );
   }
 }
+
+// const mapStateToProps = state => {
+//   return {
+//     chatHistory: state
+//   }
+// }
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     chatHistory: (newChatHistoryObj) => {
+//       dispatch(actions.addStudent(newChatHistoryObj))
+//     },
+//   }
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 export default App;
