@@ -1,7 +1,7 @@
 // api/index.js
 var socket = new WebSocket("ws://localhost:8080/ws");
 
-let connect = cb => {
+let connectSocket = cb => {
   console.log("connecting");
 
   socket.onopen = () => {
@@ -27,5 +27,5 @@ let sendMsg = msg => {
   socket.send(msg);
 };
 
-export { connect, sendMsg };
+export { connectSocket, sendMsg };
 
