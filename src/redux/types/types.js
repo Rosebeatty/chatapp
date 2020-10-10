@@ -1,1 +1,0 @@
-export const ADD_NEW_MESSAGE = 'ADD_NEW_MESSAGE';
