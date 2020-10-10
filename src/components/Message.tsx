@@ -1,7 +1,11 @@
-import React from "react";
+import * as React from "react";
 import "../Message.css";
 
-function Message(props) {
+interface MessageProps {
+  message: string
+}
+
+const Message: React.FC<MessageProps> = (props) => {
   let message = JSON.parse(props.message);
 
   return <div className="Message">{message.body}</div>;
