@@ -1,7 +1,7 @@
 // App.js
 import * as React from "react";
 import { Switch } from 'react-router-dom';
-import "./App.css";
+import "./css/App.css";
 import { getPath } from './router-paths';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
