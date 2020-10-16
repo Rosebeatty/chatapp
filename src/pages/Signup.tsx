@@ -14,8 +14,6 @@ class Signup extends React.Component {
     // const {
     //   username,
     //   password,
-    //   space_name,
-    //   theme,
     //   email,
       
     // } = this.state;
@@ -23,8 +21,6 @@ class Signup extends React.Component {
     // this.props.signup({
     //   username,
     //   password,
-    //   space_name,
-    //   theme,
     //   email,
     // }); 
     // props.signup is Provided by withAuth() and Context API

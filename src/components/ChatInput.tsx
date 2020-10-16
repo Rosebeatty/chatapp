@@ -1,5 +1,5 @@
 import * as React from "react";
-import "../ChatInput.css";
+import "../css/ChatInput.css";
 
 interface InputProp {
   send: (event: React.KeyboardEvent) => void

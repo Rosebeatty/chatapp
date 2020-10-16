@@ -1,6 +1,6 @@
 // App.js
 import * as React from "react";
-import "../App.css";
+import "../css/App.css";
 import ChatHistory from '../components/ChatHistory'
 import ChatInput from '../components/ChatInput'
 import { RootState } from "../redux/reducers/chatReducer"
