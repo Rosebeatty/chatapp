@@ -1,15 +1,19 @@
 // api/index.js
 var socket = new WebSocket("ws://localhost:8080/ws");
 
-let connectSocket = (cb): void => {
+interface Message {
+ (msg: MessageEvent): void
+}
+
+let connectSocket = (cb: Message): void => {
   console.log("connecting");
 
   socket.onopen = (): void => {
     console.log("Successfully Connected");
   };
 
-  socket.onmessage = (msg: MessageEvent): void => {
-    console.log(msg);
+  socket.onmessage = (msg: MessageEvent): void=> {
+    console.log(cb);
     cb(msg);
   };
 

@@ -15,8 +15,8 @@ export enum actionTypes {
 
 // use typescript enum rather than action constants
 
-export const todoActions = {
-  addMessage:(newChatHistoryObj: string) => action(actionTypes.ADD_NEW_MESSAGE, newChatHistoryObj)
+export const messageActions = {
+  addMessage:(newChatHistoryObj: MessageEvent) => action(actionTypes.ADD_NEW_MESSAGE, newChatHistoryObj)
 };
 
 export type RootAction = ActionType<typeof import('../actions/actions')>;

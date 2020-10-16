@@ -2,6 +2,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { BrowserRouter as Router } from 'react-router-dom';
+import AuthProvider from './lib/AuthProvider';
 import * as serviceWorker from './serviceWorker';
 
 // IMPORT REDUX
@@ -14,9 +16,13 @@ const store = createStore(chatReducer);
 
 // PROVIDE STORE TO THE APP
 ReactDOM.render(
-  <Provider store={store}>
+  <Router>
+  <AuthProvider>
+    <Provider  store={store}>
     <App />
-  </Provider>, 
+    </Provider>
+  </AuthProvider>
+</Router>,
   document.getElementById('root') as HTMLElement
 );
 
