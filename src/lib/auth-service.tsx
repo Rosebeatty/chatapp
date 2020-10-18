@@ -4,15 +4,15 @@ class Auth {
   auth: any;
   constructor() {
     this.auth = axios.create({
-      baseURL: process.env.REACT_APP_API_URL,
+      baseURL: 'http://localhost:8080',
       withCredentials: true,
     });
   }
 
   signup(user) {
-    const { username, password, email, theme, space_name} = user;
+    const { username, password} = user;
     return this.auth
-      .post('/auth/signup', { username, password, email, theme, space_name})
+      .post('/register', { username, password})
       .then(({ data }) => data);
   }
 
@@ -27,9 +27,9 @@ class Auth {
     return this.auth.post('/auth/logout', {}).then(response => response.data);
   }
 
-  me() {
-    return this.auth.get('/auth/me').then(response => response.data);
-  }
+  // me() {
+  //   return this.auth.get('/auth/me').then(response => response.data);
+  // }
 }
 
 const axiosRequestFunctions = new Auth();

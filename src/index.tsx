@@ -17,12 +17,12 @@ const store = createStore(chatReducer);
 // PROVIDE STORE TO THE APP
 ReactDOM.render(
   <Router>
-  <AuthProvider>
-    <Provider  store={store}>
-    <App />
-    </Provider>
-  </AuthProvider>
-</Router>,
+    <AuthProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </AuthProvider>
+  </Router>,
   document.getElementById('root') as HTMLElement
 );
 

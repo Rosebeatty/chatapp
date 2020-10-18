@@ -2,27 +2,29 @@ import * as React from 'react'
 import { Link } from "react-router-dom";
 import { withAuth } from "../lib/AuthProvider";
 
-class Signup extends React.Component {
+interface SignupProp {
+    signup: any
+}
+
+class Signup extends React.Component<SignupProp> {
   state = {
     username: "",
     password: "",
-    email: "",
+    // email: "",
   };
 
   handleFormSubmit = event => {
     event.preventDefault();
-    // const {
-    //   username,
-    //   password,
-    //   email,
+    const {
+      username,
+      password,
       
-    // } = this.state;
-    //  console.log('Signup -> form submit', { username, password });
-    // this.props.signup({
-    //   username,
-    //   password,
-    //   email,
-    // }); 
+    } = this.state;
+     console.log('Signup -> form submit', { username, password });
+    this.props.signup({
+      username,
+      password,
+    }); 
     // props.signup is Provided by withAuth() and Context API
   };
 
@@ -35,7 +37,7 @@ class Signup extends React.Component {
     const {
       username,
       password,
-      email,
+    //   email,
     } = this.state;
     return (
       <div>
@@ -61,13 +63,13 @@ class Signup extends React.Component {
               value={password}
               onChange={this.handleChange}
             />
-            <label>Email:</label>
+            {/* <label>Email:</label>
             <input
               type="email"
               name="email"
               value={email}
               onChange={this.handleChange}
-            />
+            /> */}
             <input
               style={{
                 width: "8%",
