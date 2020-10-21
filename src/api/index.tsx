@@ -1,4 +1,4 @@
-// api/index.js
+// api/index.tsx
 var socket = new WebSocket("ws://localhost:8080/ws");
 
 interface Message {

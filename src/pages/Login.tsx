@@ -1,17 +1,22 @@
 import * as React from 'react'
 import { withAuth } from "../lib/AuthProvider";
+import { Link } from "react-router-dom";
+import '../css/Login.css'
 
-class Login extends React.Component {
+interface LoginProp {
+  login: any
+}
+
+class Login extends React.Component<LoginProp> {
   state = { username: "", password: "" };
 
-  handleFormSubmit = event => {
+  handleFormSubmit = (event: any) => {
     event.preventDefault();
-    console.log(this.props);
-    // const { username, password } = this.state;
-    // this.props.login({ username, password });
+    const { username, password } = this.state;
+    this.props.login({ username, password });
   };
 
-  handleChange = event => {
+  handleChange = (event: any) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   };
@@ -45,10 +50,8 @@ class Login extends React.Component {
               value={password}
               onChange={this.handleChange}
             />
-
             <input
               style={{
-                width: "50%",
                 margin: "4vh auto",
                 backgroundColor: "#2ab193e5"
               }}
@@ -56,6 +59,8 @@ class Login extends React.Component {
               value="Login"
             />
           </form>
+          <p>Don't have an account?</p>
+          <Link to={"/signup"}>Signup</Link>
         </div>
       </div>
     );

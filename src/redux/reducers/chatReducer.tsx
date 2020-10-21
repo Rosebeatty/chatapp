@@ -2,7 +2,7 @@ import { actionTypes, RootAction } from "../actions/actions";
 import {StateType} from "typesafe-actions"
 
 // CREATE THE REDUCER
-const initialState = [];
+const initialState: any = [];
 
 export const chatReducer = ((state = initialState, action: RootAction) => {
   switch(action.type) {

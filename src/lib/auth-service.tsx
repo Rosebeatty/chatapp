@@ -9,14 +9,14 @@ class Auth {
     });
   }
 
-  signup(user) {
+  signup(user: any) {
     const { username, password} = user;
     return this.auth
       .post('/register', { username, password})
-      .then(({ data }) => data);
+      .then(({ data }) => console.log(data));
   }
 
-  login(user) {
+  login(user: any) {
     const { username, password } = user;
     return this.auth
       .post('/auth/login', { username, password })

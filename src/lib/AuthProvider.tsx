@@ -44,23 +44,24 @@ class AuthProvider extends React.Component {
 
   state = { isLoggedin: false, user: null, isLoading: true };
 
-//   componentDidMount() {
-//     authService
-//       .me()
-//       .then(user =>
-//         this.setState({ isLoggedin: true, user: user, isLoading: false }),
-//       )
-//       .catch(err =>
-//         this.setState({ isLoggedin: false, user: null, isLoading: false }),
-//       );
-//   }
+  // componentDidMount() {
+  //   authService
+  //     .me()
+  //     .then(user =>
+  //       this.setState({ isLoggedin: true, user: user, isLoading: false }),
+  //     )
+  //     .catch(err =>
+  //       this.setState({ isLoggedin: false, user: null, isLoading: false }),
+  //     );
+  // }
 
-  signup = user => {
+  signup = (user: any) => {
     const {  username, password} = user;
 
     authService
-      .signup({  username, password})
+      .signup({username, password})
       .then(user => this.setState({ isLoggedin: true, user }))
+      .then(e => console.log(this.state))
       .catch(err => console.log(err));
   };
 

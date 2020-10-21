@@ -3,6 +3,8 @@ import * as React from "react";
 import "../css/App.css";
 import ChatHistory from '../components/ChatHistory'
 import ChatInput from '../components/ChatInput'
+import Sidebar from '../components/Sidebar'
+import Searchbar from '../components/Searchbar'
 import { RootState } from "../redux/reducers/chatReducer"
 import { RootAction, actionTypes } from "../redux/actions/actions"
 import { Dispatch } from 'redux';
@@ -15,7 +17,6 @@ interface ContainerProps {
 }
 
 class Home extends React.Component<ContainerProps> {
-  
   send(event: React.KeyboardEvent): void {
     if(event.key === 'Enter') {
       sendMsg((event.target as HTMLTextAreaElement).value);
@@ -24,6 +25,10 @@ class Home extends React.Component<ContainerProps> {
   }
 
   componentDidMount(): void {
+    console.log(navigator.geolocation.getCurrentPosition(function(position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    }));
     connectSocket((msg: MessageEvent) => {
       console.log("New Message")
       this.props.addMessage(msg)
@@ -33,7 +38,8 @@ class Home extends React.Component<ContainerProps> {
   render() {
     return (
       <div className="App">
-        {/* <Header /> */}
+        <Searchbar/>
+        <Sidebar />
         <ChatHistory chatHistory={this.props.chatHistory} />
         <ChatInput send={this.send} />
       </div>

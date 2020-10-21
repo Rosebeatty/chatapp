@@ -13,7 +13,7 @@ class Signup extends React.Component<SignupProp> {
     // email: "",
   };
 
-  handleFormSubmit = event => {
+  handleFormSubmit = (event: any) => {
     event.preventDefault();
     const {
       username,
@@ -23,12 +23,12 @@ class Signup extends React.Component<SignupProp> {
      console.log('Signup -> form submit', { username, password });
     this.props.signup({
       username,
-      password,
+      password
     }); 
     // props.signup is Provided by withAuth() and Context API
   };
 
-  handleChange = event => {
+  handleChange = (event: any) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   };
@@ -72,7 +72,6 @@ class Signup extends React.Component<SignupProp> {
             /> */}
             <input
               style={{
-                width: "8%",
                 margin: "1.5vh auto",
                 backgroundColor: "#2ab193e5"
               }}
@@ -80,7 +79,6 @@ class Signup extends React.Component<SignupProp> {
               value="Signup"
             />
           </form>
-
           <p>Already have account?</p>
           <Link to={"/login"}> Login</Link>
         </div>
