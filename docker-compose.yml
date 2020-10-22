@@ -1,6 +1,6 @@
 version: '3'
 services:
-  chatrontend:
+  chatfrontend:
     image: chatfrontend:latest
     environment:
       PORT: 3000
