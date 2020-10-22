@@ -9,6 +9,10 @@ A real-time chat app created with Golang, React, Typescript and WebSocket.
 
 ## Available Scripts
 
+Inside the frontend repository install dependencies with:
+
+### `npm i`
+
 In the project directory, you can run:
 
 ### `docker-compose up`
