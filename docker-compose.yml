@@ -1,0 +1,13 @@
+version: '3'
+services:
+  chatrontend:
+    image: chatfrontend:latest
+    environment:
+      PORT: 3000
+      PROXY_API: http://chatbackend:8080/
+    ports:
+      - 3000:3000
+  chatbackend:
+    image: chatbackend:latest
+    ports:
+      - 8080:8080

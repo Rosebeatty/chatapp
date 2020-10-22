@@ -1,0 +1,9 @@
+#sidebar {
+    position: fixed;
+    display: flex;
+    justify-content: left;
+    height:100vh;
+    width:16vw;
+    background-color: rgb(26, 55, 219);
+    color:white
+}
