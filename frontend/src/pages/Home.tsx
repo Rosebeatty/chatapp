@@ -1,6 +1,6 @@
 // App.js
 import * as React from "react";
-import "../css/App.css";
+// import "../css/App.css";
 import ChatHistory from '../components/ChatHistory'
 import ChatInput from '../components/ChatInput'
 import Sidebar from '../components/Sidebar'

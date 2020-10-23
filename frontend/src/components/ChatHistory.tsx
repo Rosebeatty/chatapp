@@ -1,5 +1,5 @@
 import * as React from "react";
-import '../css/ChatHistory.css' 
+// import '../css/ChatHistory.css' 
 import Message from './Message'
 
 export interface ChatProps {
