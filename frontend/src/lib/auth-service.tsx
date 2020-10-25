@@ -13,23 +13,23 @@ class Auth {
     const { username, password} = user;
     return this.auth
       .post('/register', { username, password})
-      .then(({ data }) => console.log(data));
+      .then(({ data }) => data);
   }
 
   login(user: any) {
     const { username, password } = user;
     return this.auth
-      .post('/auth/login', { username, password })
+      .post('/login', { username, password })
       .then(({ data }) => data);
   }
 
   logout() {
-    return this.auth.post('/auth/logout', {}).then(response => response.data);
+    return this.auth.post('/logout', {}).then(response => response.data);
   }
 
-  // me() {
-  //   return this.auth.get('/auth/me').then(response => response.data);
-  // }
+  me() {
+    return this.auth.get('/me').then(response => response.data);
+  }
 }
 
 const axiosRequestFunctions = new Auth();

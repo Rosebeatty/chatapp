@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/gob"
 	"fmt"
 	"net/http"
 
@@ -9,36 +8,8 @@ import (
 	"github.com/golang/chatapp/pkg/utils"
 	"github.com/golang/chatapp/pkg/websocket"
 	"github.com/gorilla/mux"
-	"github.com/gorilla/securecookie"
-	"github.com/gorilla/sessions"
+	"github.com/rs/cors"
 )
-
-// User holds a users account information
-type User struct {
-	Username      string
-	Authenticated bool
-}
-
-// store will hold all session data
-var store *sessions.CookieStore
-
-func init() {
-	authKeyOne := securecookie.GenerateRandomKey(64)
-	encryptionKeyOne := securecookie.GenerateRandomKey(32)
-
-	store = sessions.NewCookieStore(
-		authKeyOne,
-		encryptionKeyOne,
-	)
-
-	store.Options = &sessions.Options{
-		Path:     "/",
-		MaxAge:   60 * 15,
-		HttpOnly: true,
-	}
-
-	gob.Register(User{})
-}
 
 func main() {
 	fmt.Println("Chat App v0.01")
@@ -48,7 +19,6 @@ func main() {
 
 func setupRoutes() {
 	router := mux.NewRouter()
-	router.Use(forCORS)
 
 	pool := websocket.NewPool()
 	go pool.Start()
@@ -59,28 +29,23 @@ func setupRoutes() {
 	router.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
 		routes.CreateUser(w, r)
 	})
+	router.HandleFunc("/me", func(w http.ResponseWriter, r *http.Request) {
+		utils.CheckSession(w, r)
+	})
 	router.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+		routes.Login(w, r)
 	})
 	router.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
 	})
 
-	http.ListenAndServe(":8080", router)
-}
-
-func forCORS(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Credentials", "true")
-		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers")
-
-		if r.Method == "OPTIONS" {
-			w.WriteHeader(http.StatusOK)
-			return
-		}
-		next.ServeHTTP(w, r)
-		return
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000", "https://localhost:3000"}, // All origins
+		AllowedMethods:   []string{"GET", "POST", "OPTIONS"},                          // Allowing only get, just an example
+		AllowCredentials: true,
+		AllowedHeaders:   []string{"Accept", "content-type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
 	})
+
+	http.ListenAndServe(":8080", c.Handler(router))
 }
 
 func serveWs(pool *websocket.Pool, w http.ResponseWriter, r *http.Request) {

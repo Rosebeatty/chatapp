@@ -1,6 +1,6 @@
 // App.js
 import * as React from "react";
-// import "../css/App.css";
+import "../css/App.css";
 import ChatHistory from '../components/ChatHistory'
 import ChatInput from '../components/ChatInput'
 import Sidebar from '../components/Sidebar'
@@ -10,6 +10,8 @@ import { RootAction, actionTypes } from "../redux/actions/actions"
 import { Dispatch } from 'redux';
 import { connectSocket, sendMsg } from "../api";
 import { connect } from 'react-redux';
+import { compose } from 'redux'
+import { withAuth } from "../lib/AuthProvider";
 
 interface ContainerProps {
   addMessage: (newChatHistoryObj: MessageEvent) => object;
@@ -58,5 +60,5 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>) => ({
       dispatch({type: actionTypes.ADD_NEW_MESSAGE, payload: newChatHistoryObj})
   })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withAuth)(Home);
 

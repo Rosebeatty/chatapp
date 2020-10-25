@@ -8,15 +8,15 @@ export const MyContext = React.createContext<ContextProps | null>(null);
 interface ContextProps {
     login: (user:any) => void,
     signup: (user:any) => void,
-    user: null,
+    user: any,
     logout: (user:any) => void,
     isLoggedin: boolean,
-    isLoading: boolean
+    isLoading: boolean,
 }
 
 // HOC to create Consumer
-const withAuth = (WrappedComponent) => {
-  return class extends React.Component {
+const withAuth = <P extends object>(WrappedComponent: React.ComponentType<P>) => {
+  return class extends React.Component<P & ContextProps> {
     render() {
       return (
         <MyContext.Consumer>
@@ -29,7 +29,7 @@ const withAuth = (WrappedComponent) => {
                 logout={props.logout}
                 isLoggedin={props.isLoggedin}
                 isLoading={props.isLoading}
-                {...this.props}
+                {...this.props as P}
               />
             );
           }}
@@ -44,16 +44,16 @@ class AuthProvider extends React.Component {
 
   state = { isLoggedin: false, user: null, isLoading: true };
 
-  // componentDidMount() {
-  //   authService
-  //     .me()
-  //     .then(user =>
-  //       this.setState({ isLoggedin: true, user: user, isLoading: false }),
-  //     )
-  //     .catch(err =>
-  //       this.setState({ isLoggedin: false, user: null, isLoading: false }),
-  //     );
-  // }
+  componentDidMount() {
+    authService
+      .me()
+      .then(user =>
+        this.setState({ isLoggedin: true, user: user, isLoading: false }),
+      )
+      .catch(err =>
+        this.setState({ isLoggedin: false, user: null, isLoading: false }),
+      );
+  }
 
   signup = (user: any) => {
     const {  username, password} = user;

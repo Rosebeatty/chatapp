@@ -1,5 +1,5 @@
 import * as React from "react";
-// import "../css/Message.css";
+import "../css/Message.css";
 
 interface MessageProps {
   message: string

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { withAuth } from "../lib/AuthProvider";
 import { Link } from "react-router-dom";
-// import '../css/Login.css'
+import '../css/Login.css'
 
 interface LoginProp {
   login: any

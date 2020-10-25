@@ -27,3 +27,7 @@ func ConnectDB() *mongo.Client {
 	fmt.Printf("Connected to database %v", client.Database("chatapp"))
 	return client
 }
+
+func InsertOne() {
+
+}

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Route, Redirect, RouteProps, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Route, Redirect, RouteProps, RouteComponentProps} from 'react-router-dom';
+import { withAuth } from '../lib/AuthProvider';
 
 export type RouteComponent = React.FC<RouteComponentProps<{}>> | React.ComponentClass<TRouteProps> | React.ComponentClass<any>
 
@@ -16,12 +17,14 @@ const AnonRoute: React.FC<TRouteProps> = ({ component, isLoggedin, isLoading, ..
     if (isLoading) {
       return <h1>Loading</h1>
     }
+    if (isLoggedin) {
+      return <Redirect to="/" />
+    }
     if (!isLoggedin) {
       return <Component {...props} />
     }
-    return <Redirect to="/" />
     }
   return <Route {...rest} render={renderFn(component)} />
 }
 
-export default withRouter(AnonRoute as React.ComponentType<any>);
+export default withAuth(AnonRoute as React.ComponentType<any>);

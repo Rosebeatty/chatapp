@@ -19,4 +19,4 @@ export const messageActions = {
   addMessage:(newChatHistoryObj: MessageEvent) => action(actionTypes.ADD_NEW_MESSAGE, newChatHistoryObj)
 };
 
-export type RootAction = ActionType<typeof import('../actions/actions')>;
+export type RootAction = ActionType<typeof import('./actions')>;

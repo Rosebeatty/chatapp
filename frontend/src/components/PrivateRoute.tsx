@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Route, Redirect, RouteProps, withRouter } from 'react-router-dom';
+import { withAuth } from '../lib/AuthProvider';
+import { Route, Redirect, RouteProps } from 'react-router-dom';
 import { TRouteProps, RouteComponent } from './AnonRoute'
 
 const PrivateRoute: React.FC<TRouteProps> = ({ component, isLoggedin, isLoading, ...rest }) => {
@@ -18,4 +19,4 @@ const PrivateRoute: React.FC<TRouteProps> = ({ component, isLoggedin, isLoading,
   return <Route {...rest} render={renderFn(component)} />
 }
 
-export default withRouter(PrivateRoute as React.ComponentType<any>);
+export default withAuth(PrivateRoute as React.ComponentType<any>);
