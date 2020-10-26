@@ -20,6 +20,8 @@ Run tests:
 
 ### `npm run test`
 
+<br/> 
+
 ## Backend Scripts
 
 Build a docker image:
@@ -29,5 +31,7 @@ Build a docker image:
 In the project directory, start the app with:
 
 ### `docker-compose up`
+
+<br/> 
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
