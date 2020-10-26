@@ -157,8 +157,8 @@ export default function PersistentDrawerLeft() {
                 open={openit}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleClose}>Settings</MenuItem>
+                <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>
           </div>
         </Toolbar>

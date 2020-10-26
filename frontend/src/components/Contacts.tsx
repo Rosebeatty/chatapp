@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       maxWidth: '36ch',
       backgroundColor: theme.palette.background.paper,
+      cursor: 'pointer'
     },
     inline: {
       display: 'inline',
@@ -31,7 +32,7 @@ export default function AlignItemsList() {
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </ListItemAvatar>
         <ListItemText
-          primary="Brunch this weekend?"
+          primary="Remy Sharp"
           secondary={
             <React.Fragment>
               <Typography
@@ -40,9 +41,9 @@ export default function AlignItemsList() {
                 className={classes.inline}
                 color="textPrimary"
               >
-                Ali Connors
+                Online
               </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
+              {""}
             </React.Fragment>
           }
         />
@@ -53,7 +54,7 @@ export default function AlignItemsList() {
           <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
         </ListItemAvatar>
         <ListItemText
-          primary="Summer BBQ"
+          primary="Travis Howard"
           secondary={
             <React.Fragment>
               <Typography
@@ -62,9 +63,9 @@ export default function AlignItemsList() {
                 className={classes.inline}
                 color="textPrimary"
               >
-                to Scott, Alex, Jennifer
+                Online 
               </Typography>
-              {" — Wish I could come, but I'm out of town this…"}
+              {""}
             </React.Fragment>
           }
         />
@@ -75,7 +76,7 @@ export default function AlignItemsList() {
           <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
         </ListItemAvatar>
         <ListItemText
-          primary="Oui Oui"
+          primary="Condy Baker"
           secondary={
             <React.Fragment>
               <Typography
@@ -84,19 +85,20 @@ export default function AlignItemsList() {
                 className={classes.inline}
                 color="textPrimary"
               >
-                Sandra Adams
+                Online
               </Typography>
-              {' — Do you have Paris recommendations? Have you ever…'}
+              {''}
             </React.Fragment>
           }
         />
       </ListItem>
+      <Divider variant="inset" component="li" />
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+          <Avatar alt="Rose Beatty" src="/static/images/avatar/3.jpg" />
         </ListItemAvatar>
         <ListItemText
-          primary="Oui Oui"
+          primary="Rose Beatty"
           secondary={
             <React.Fragment>
               <Typography
@@ -105,9 +107,9 @@ export default function AlignItemsList() {
                 className={classes.inline}
                 color="textPrimary"
               >
-                Sandra Adams
+                Online
               </Typography>
-              {' — Do you have Paris recommendations? Have you ever…'}
+              {''}
             </React.Fragment>
           }
         />
