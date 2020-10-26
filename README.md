@@ -4,10 +4,9 @@
 
 A real-time chat app created with Go, React, Redux, Typescript, WebSocket and Material UI.
 
+<br/> 
 
-## Available Scripts
-
-## Inside the frontend repository
+## Frontend Scripts
 
 Install dependencies:
 
@@ -21,7 +20,7 @@ Run tests:
 
 ### `npm run test`
 
-## Inside the backend repository
+## Backend Scripts
 
 Build a docker image:
 
