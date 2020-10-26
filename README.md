@@ -6,7 +6,7 @@ A real-time chat app created with Go, React, Redux, Typescript, WebSocket and Ma
 
 <br/> 
 
-## Inside Frontend Repo
+## In the Frontend Repository
 
 Install dependencies:
 
@@ -22,7 +22,7 @@ Run tests:
 
 <br/> 
 
-## Inside Backend Repo
+## In the Backend Repository
 
 Build a docker image:
 
@@ -30,7 +30,9 @@ Build a docker image:
 
 <br/> 
 
-In the project directory, start the app with:
+## In the Project Directory
+
+Start the app with:
 
 ### `docker-compose up`
 
