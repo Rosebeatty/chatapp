@@ -4,7 +4,8 @@ import "../css/App.css";
 import ChatHistory from '../components/ChatHistory'
 import ChatInput from '../components/ChatInput'
 import Sidebar from '../components/Sidebar'
-import Searchbar from '../components/Searchbar'
+// import Searchbar from '../components/Searchbar'
+// import Bottombar from '../components/Bottombar'
 import { RootState } from "../redux/reducers/chatReducer"
 import { RootAction, actionTypes } from "../redux/actions/actions"
 import { Dispatch } from 'redux';
@@ -40,10 +41,16 @@ class Home extends React.Component<ContainerProps> {
   render() {
     return (
       <div className="App">
-        <Searchbar/>
         <Sidebar />
-        <ChatHistory chatHistory={this.props.chatHistory} />
-        <ChatInput send={this.send} />
+        <div className="right-section">
+          <div id="chat-section">
+            <ChatHistory chatHistory={this.props.chatHistory} />
+            <ChatInput send={this.send} />
+          </div>
+          {/* <div id="search-section">
+          </div> */}
+        </div>
+        <footer>2020</footer>
       </div>
     );
   }

@@ -28,6 +28,13 @@
   color: #61dafb;
 }
 
+.right-section {
+  height: 100vh;
+  /* left: 16vw; */
+  width: 100vw;
+  position: fixed;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

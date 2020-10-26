@@ -1,15 +1,21 @@
-.ChatInput {
-    width: 95%;
+.chat-input {
+    width: 100%;
     display: block;
     margin: auto;
+    display: flex;
+    justify-content:center;
+    position:fixed;
+    bottom: 0vh;
+    background-color: gainsboro;
+    padding: 0.8em;
 }
-    .ChatInput input {
+    .chat-input input {
       padding: 10px;
       margin: 0;
       font-size: 16px;
       border: none;
       border-radius: 5px;
       border: 1px solid rgba(0, 0, 0, 0.1);
-      width: 98%;
+      width: 80%;
       box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
 }
