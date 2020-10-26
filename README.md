@@ -4,7 +4,7 @@
 
 ## Description
 
-A real-time chat app created with Golang, React, Typescript and WebSocket.
+A real-time chat app created with Go, React, Typescript, WebSocket and Material UI.
 
 
 ## Available Scripts
