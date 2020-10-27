@@ -3,10 +3,12 @@ package routes
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/golang/chatapp/pkg/models"
 	"github.com/golang/chatapp/pkg/utils"
+	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -49,25 +51,63 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// createdUser := utils.InsertOne(user)
-	// var errMessage = createdUser.Error
+	client, ctx, cancel := utils.ConnectDB()
+	defer cancel()
+	defer client.Disconnect(ctx)
+	// user.ID = primitive.NewObjectID()
 
-	// if createdUser.Error != nil {
-	// 	fmt.Println(errMessage)
-	// }
+	res, err := client.Database("chatapp").Collection("users").InsertOne(ctx, user)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(res)
+
 	json.NewEncoder(w).Encode(user)
-
 	return
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
+	store := utils.CreateSession()
+	session, err := store.Get(r, "sess")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	user := &models.User{}
-	err := json.NewDecoder(r.Body).Decode(user)
+	err = json.NewDecoder(r.Body).Decode(user)
+	fmt.Println(user)
+
 	if err != nil {
 		var resp = map[string]interface{}{"status": false, "message": "Invalid request"}
 		json.NewEncoder(w).Encode(resp)
 		return
 	}
-	// resp := FindOne(user.Email, user.Password)
-	json.NewEncoder(w).Encode(user)
+
+	u := utils.User{
+		Username:      user.Username,
+		Authenticated: true,
+	}
+
+	session.Values["user"] = u
+
+	err = session.Save(r, w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	client, ctx, cancel := utils.ConnectDB()
+	defer cancel()
+	defer client.Disconnect(ctx)
+	err = client.Database("chatapp").Collection("users").FindOne(ctx, bson.M{"username": user.Username}).Decode(user)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return
+}
+
+func Logout(w http.ResponseWriter, r *http.Request) {
+
+	return
 }

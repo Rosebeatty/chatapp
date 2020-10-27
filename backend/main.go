@@ -13,7 +13,6 @@ import (
 
 func main() {
 	fmt.Println("Chat App v0.01")
-	utils.ConnectDB()
 	setupRoutes()
 }
 
@@ -36,6 +35,7 @@ func setupRoutes() {
 		routes.Login(w, r)
 	})
 	router.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
+		routes.Logout(w, r)
 	})
 
 	c := cors.New(cors.Options{
