@@ -107,7 +107,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func Logout(w http.ResponseWriter, r *http.Request) {
+// func Logout(w http.ResponseWriter, r *http.Request) {
 
-	return
-}
+// 	return
+// }
