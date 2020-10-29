@@ -17,12 +17,10 @@ const AnonRoute: React.FC<TRouteProps> = ({ component, isLoggedin, isLoading, ..
     if (isLoading) {
       return <h1>Loading</h1>
     }
-    if (isLoggedin) {
-      return <Redirect to="/" />
-    }
     if (!isLoggedin) {
       return <Component {...props} />
     }
+    return <Redirect to="/" />
     }
   return <Route {...rest} render={renderFn(component)} />
 }

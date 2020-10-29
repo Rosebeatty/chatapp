@@ -17,6 +17,7 @@ import { withAuth } from "../lib/AuthProvider";
 interface ContainerProps {
   addMessage: (newChatHistoryObj: MessageEvent) => object;
   chatHistory: Array<any>;
+  logout: any
 }
 
 class Home extends React.Component<ContainerProps> {
@@ -39,9 +40,10 @@ class Home extends React.Component<ContainerProps> {
   }
 
   render() {
+    // const { logout } = this.props
     return (
       <div className="App">
-        <Sidebar />
+        <Sidebar logout={this.props.logout} />
         <div className="right-section">
           <div id="chat-section">
             <ChatHistory chatHistory={this.props.chatHistory} />

@@ -47,12 +47,14 @@ class AuthProvider extends React.Component {
   componentDidMount() {
     authService
       .me()
-      .then(user =>
-        this.setState({ isLoggedin: true, user: user, isLoading: false }),
-      )
+      .then(user => {
+        user.Authenticated === false 
+        ? this.setState({ isLoggedin: false, user: null, isLoading: false })
+        : this.setState({ isLoggedin: true, user: user, isLoading: false })
+        })
       .catch(err =>
-        this.setState({ isLoggedin: false, user: null, isLoading: false }),
-      );
+        this.setState({ isLoggedin: false, user: null, isLoading: false })
+        );
   }
 
   signup = (user: any) => {

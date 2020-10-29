@@ -87,12 +87,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function PersistentDrawerLeft() {
+export default function Sidebar(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openit = Boolean(anchorEl);
+//   const { logout } = this.props;
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -100,6 +101,12 @@ export default function PersistentDrawerLeft() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    handleClose()
+    console.log(props);
+    props.logout()
   };
 
   const handleDrawerOpen = () => {
@@ -158,7 +165,7 @@ export default function PersistentDrawerLeft() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Settings</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
           </div>
         </Toolbar>

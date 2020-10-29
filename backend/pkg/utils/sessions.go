@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/gob"
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/securecookie"
@@ -16,25 +17,25 @@ type User struct {
 }
 
 // store will hold all session data
-var store *sessions.CookieStore
+var Store *sessions.CookieStore
 
 func CreateSession() *sessions.CookieStore {
 	authKeyOne := securecookie.GenerateRandomKey(64)
 	encryptionKeyOne := securecookie.GenerateRandomKey(32)
 
-	store = sessions.NewCookieStore(
+	Store = sessions.NewCookieStore(
 		authKeyOne,
 		encryptionKeyOne,
 	)
 
-	store.Options = &sessions.Options{
+	Store.Options = &sessions.Options{
 		Path:     "/",
 		MaxAge:   60 * 15,
 		HttpOnly: true,
 	}
 
 	gob.Register(User{})
-	return store
+	return Store
 }
 
 func getUser(s *sessions.Session) User {
@@ -48,13 +49,13 @@ func getUser(s *sessions.Session) User {
 }
 
 func CheckSession(w http.ResponseWriter, r *http.Request) {
-	session, err := store.Get(r, "sess")
+	session, err := Store.Get(r, "sess")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
+	fmt.Println(session.Values["user"])
 	user := getUser(session)
+	fmt.Println(user)
 	json.NewEncoder(w).Encode(user)
-	return
 }

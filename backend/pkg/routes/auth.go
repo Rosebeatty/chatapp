@@ -8,6 +8,7 @@ import (
 
 	"github.com/golang/chatapp/pkg/models"
 	"github.com/golang/chatapp/pkg/utils"
+	"github.com/gorilla/sessions"
 	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -107,7 +108,17 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// func Logout(w http.ResponseWriter, r *http.Request) {
-
-// 	return
-// }
+func Logout(w http.ResponseWriter, r *http.Request) {
+	session, err := utils.Store.Get(r, "sess")
+	if err != nil {
+		log.Fatal(err)
+	}
+	session.Values["user"] = utils.User{}
+	session.Options = &sessions.Options{
+		MaxAge: -1,
+	}
+	err = session.Save(r, w)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
