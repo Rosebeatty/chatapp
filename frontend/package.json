@@ -23,9 +23,11 @@
     "react-router-dom": "^5.2.0",
     "react-scripts-ts": "^4.0.8",
     "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "ts-jest": "26.4.1",
     "typesafe-actions": "^5.1.0",
-    "typescript": "^4.0.3"
+    "typescript": "^4.0.3",
+    "vanta": "^0.5.21"
   },
   "scripts": {
     "start": "react-scripts-ts start",

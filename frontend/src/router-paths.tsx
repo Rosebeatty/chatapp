@@ -2,6 +2,8 @@ const pathsMap = {
     home: () => '/',
     login: () => '/login',
     signup: () => '/signup',
+    profile: () => '/profile',
+    settings: () => '/settings',
     // viewArticle: (articleId: string) => `/articles/${articleId}`,
   };
   type PathsMap = typeof pathsMap;

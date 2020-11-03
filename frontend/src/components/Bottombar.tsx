@@ -82,6 +82,7 @@ export default function SwipeableTemporaryDrawer() {
       {(['bottom'] as Anchor[]).map((anchor) => (
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)}>Search</Button>
+          <Button onClick={toggleDrawer(anchor, true)}>Translate</Button>
           <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}

@@ -1,5 +1,6 @@
-import React from "react";
+import * as React from "react";
 import clsx from "clsx";
+import {Link} from 'react-router-dom'
 import {
   makeStyles,
   useTheme,
@@ -87,13 +88,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Sidebar(props) {
+interface UserProps {
+    users?: any,
+    logout: () => any,
+    sendId?: (id) => any
+}
+
+const Sidebar: React.FC<UserProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openit = Boolean(anchorEl);
-//   const { logout } = this.props;
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -105,7 +111,6 @@ export default function Sidebar(props) {
 
   const handleLogout = () => {
     handleClose()
-    console.log(props);
     props.logout()
   };
 
@@ -137,7 +142,7 @@ export default function Sidebar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6"  className={classes.title}>
-            Chat app
+            MEMO
           </Typography>
           <div>
               <IconButton
@@ -164,7 +169,7 @@ export default function Sidebar(props) {
                 open={openit}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Settings</MenuItem>
+                <MenuItem onClick={handleClose}><Link to={{pathname: "/profile"}}>Profile</Link></MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
           </div>
@@ -189,7 +194,10 @@ export default function Sidebar(props) {
           </IconButton>
         </div>
         <Divider />
-        <Contacts />
+        { window.location.pathname == '/' ?
+        <Contacts sendId={props.sendId} users={props.users} />
+        : null
+        }
       </Drawer>
       <main
         style={{ padding: "0" }}
@@ -202,3 +210,5 @@ export default function Sidebar(props) {
     </div>
   );
 }
+
+export default Sidebar

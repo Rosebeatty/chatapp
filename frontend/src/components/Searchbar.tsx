@@ -27,7 +27,6 @@ class SearchBar extends React.Component {
 
   render() {
     return (
-    //   <li  className='nav-item' style={{"display":"flex"}}>
        <form onSubmit={(e) => this.searchSubmit(e)} id="search-bar">
         <label htmlFor="search-input" className="hidden"></label>
         <input
@@ -41,7 +40,6 @@ class SearchBar extends React.Component {
           Search
         </button>
         </form>
-    //   </li>
     );
   }
 }

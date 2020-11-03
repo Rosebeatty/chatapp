@@ -7,12 +7,13 @@ import AuthProvider from './lib/AuthProvider';
 // import * as serviceWorker from './serviceWorker';
 
 // IMPORT REDUX
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import chatReducer from './redux/reducers/chatReducer';
+import thunk from 'redux-thunk';
+import {rootReducer} from './redux/reducers/index';
 
 // CREATE STORE IMPORTING THE REDUCER
-const store = createStore(chatReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 // PROVIDE STORE TO THE APP
 ReactDOM.render(

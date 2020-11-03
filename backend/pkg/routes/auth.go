@@ -37,7 +37,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 	}
 	user.Password = string(pass)
-	fmt.Printf("User %v", user)
 
 	u := utils.User{
 		Username:      user.Username,
@@ -68,6 +67,8 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
 	store := utils.CreateSession()
 	session, err := store.Get(r, "sess")
 	if err != nil {
@@ -85,6 +86,23 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	dbUser := &models.User{}
+	client, ctx, cancel := utils.ConnectDB()
+	defer cancel()
+	defer client.Disconnect(ctx)
+	err = client.Database("chatapp").Collection("users").FindOne(ctx, bson.M{"username": user.Username}).Decode(dbUser)
+	if err != nil {
+		log.Fatal(err)
+	}
+	userPass := []byte(user.Password)
+	dbPass := []byte(dbUser.Password)
+	passErr := bcrypt.CompareHashAndPassword(dbPass, userPass)
+	if passErr != nil {
+		log.Println(passErr)
+		w.Write([]byte(`{"response":"Wrong Password!"}`))
+		return
+	}
+
 	u := utils.User{
 		Username:      user.Username,
 		Authenticated: true,
@@ -97,14 +115,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	json.NewEncoder(w).Encode(u)
 
-	client, ctx, cancel := utils.ConnectDB()
-	defer cancel()
-	defer client.Disconnect(ctx)
-	err = client.Database("chatapp").Collection("users").FindOne(ctx, bson.M{"username": user.Username}).Decode(user)
-	if err != nil {
-		log.Fatal(err)
-	}
 	return
 }
 

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/golang/chatapp/pkg/routes"
@@ -22,7 +23,7 @@ func setupRoutes() {
 	pool := websocket.NewPool()
 	go pool.Start()
 
-	router.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/ws/{id}", func(w http.ResponseWriter, r *http.Request) {
 		serveWs(pool, w, r)
 	})
 	router.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
@@ -37,10 +38,13 @@ func setupRoutes() {
 	router.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
 		routes.Logout(w, r)
 	})
+	router.HandleFunc("/getUsers", func(w http.ResponseWriter, r *http.Request) {
+		routes.GetUsers(w, r)
+	})
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3000", "https://localhost:3000"}, // All origins
-		AllowedMethods:   []string{"GET", "POST", "OPTIONS"},                          // Allowing only get, just an example
+		AllowedOrigins:   []string{"http://localhost:3000", "https://localhost:3000", "http://localhost:3001", "https://localhost:3000"}, // All origins
+		AllowedMethods:   []string{"GET", "POST", "OPTIONS"},                                                                             // Allowing only get, just an example
 		AllowCredentials: true,
 		AllowedHeaders:   []string{"Accept", "content-type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
 	})
@@ -50,6 +54,11 @@ func setupRoutes() {
 
 func serveWs(pool *websocket.Pool, w http.ResponseWriter, r *http.Request) {
 	fmt.Println("WebSocket Endpoint Hit")
+	params := mux.Vars(r)
+	id := params["id"]
+
+	log.Println("Url Param 'key' is: " + id)
+
 	conn, err := websocket.Upgrade(w, r)
 	if err != nil {
 		fmt.Fprintf(w, "%+v\n", err)
@@ -58,6 +67,7 @@ func serveWs(pool *websocket.Pool, w http.ResponseWriter, r *http.Request) {
 	client := &websocket.Client{
 		Conn: conn,
 		Pool: pool,
+		ID:   id,
 	}
 
 	pool.Register <- client
