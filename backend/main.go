@@ -41,6 +41,9 @@ func setupRoutes() {
 	router.HandleFunc("/getUsers", func(w http.ResponseWriter, r *http.Request) {
 		routes.GetUsers(w, r)
 	})
+	router.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
+		routes.UploadFile(w, r)
+	})
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:3000", "https://localhost:3000", "http://localhost:3001", "https://localhost:3000"}, // All origins

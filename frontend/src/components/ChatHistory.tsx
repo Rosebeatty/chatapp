@@ -5,11 +5,12 @@ import FOG from 'vanta/dist/vanta.fog.min'
 import {useRef, useEffect, useState} from 'react'
 
 export interface ChatProps {
-  chatHistory: Array<MessageEvent>;
+  chatHistory: Array<MessageEvent>,
+  file: boolean
 }
 
 const ChatHistory: React.FC<ChatProps> = (props) => {
-  const messages: Array<object> = props.chatHistory.map(msg => <Message key={Math.random()} message={msg.data} />);
+  const messages: Array<object> = props.chatHistory.map(msg => <Message file={props.file} key={Math.random()} message={msg.data} />);
 
   // const [vantaEffect, setVantaEffect] = useState(null)
   // const myRef = useRef(null)

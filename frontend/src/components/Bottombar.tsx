@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,6 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Search from './Search'
+import GTranslateIcon from '@material-ui/icons/GTranslate';
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles({
   list: {
@@ -81,8 +82,10 @@ export default function SwipeableTemporaryDrawer() {
     <div>
       {(['bottom'] as Anchor[]).map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>Search</Button>
-          <Button onClick={toggleDrawer(anchor, true)}>Translate</Button>
+          <div style={{display:"flex", justifyContent:"space-around", flexDirection:"row", height:"2.8em", alignItems:"center",width:"12vw", paddingLeft:"1vw"}}>
+          <SearchIcon style={{fontSize:"1.5em"}} onClick={toggleDrawer(anchor, true)}></SearchIcon>
+          <GTranslateIcon style={{fontSize:"1.5em"}} onClick={toggleDrawer(anchor, true)}></GTranslateIcon>
+          </div>
           <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}

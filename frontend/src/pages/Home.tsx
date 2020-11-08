@@ -15,6 +15,7 @@ import { getUsers } from "../redux/actions/userActions"
 import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { withAuth } from "../lib/AuthProvider";
+import axios from 'axios'
 
 interface ContainerProps {
   addMessage: (newChatHistoryObj: MessageEvent) => object,
@@ -65,7 +66,8 @@ let sendMsg = (msg: object): void => {
 class Home extends React.Component<ContainerProps> {
   state = {
     sender:"",
-    recipient:""
+    recipient:"",
+    file:false
   }
   send =(event: React.KeyboardEvent): void => {
     let obj = {body: (event.target as HTMLTextAreaElement).value, recipient: this.state.recipient, sender: this.state.sender}
@@ -73,6 +75,10 @@ class Home extends React.Component<ContainerProps> {
       sendMsg(obj);
       (event.target as HTMLTextAreaElement).value = "";
     }
+  }
+
+  download = (bool) => {
+    this.setState({file:bool})
   }
 
   componentDidMount(): void {
@@ -88,7 +94,6 @@ class Home extends React.Component<ContainerProps> {
     this.props.deleteMessages();
     let recipient = user.toString();
     this.setState({sender: this.props.user.Username, recipient: recipient})
-    console.log(this.props)
     this.connectS(this.props.user.Username);
   }
 
@@ -105,8 +110,8 @@ class Home extends React.Component<ContainerProps> {
         <Sidebar sendId={this.sendId} users={this.props.users} logout={this.props.logout} />
         <div className="right-section">
           <div id="chat-section">
-            <ChatHistory chatHistory={this.props.chatHistory} />
-            <ChatInput send={this.send} />
+            <ChatHistory file={this.state.file} chatHistory={this.props.chatHistory} />
+            <ChatInput download={this.download} send={this.send} />
           </div>
         </div>
         {/* <footer style={{position:"fixed", bottom:"0", width:"100vw", height:"2vh", margin:"0 auto"}}>2020</footer> */}

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
-    //   flexGrow: 1
+      // flexGrow: 1
     },
     appBar: {
       transition: theme.transitions.create(["margin", "width"], {
@@ -126,10 +126,11 @@ const Sidebar: React.FC<UserProps> = (props) => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
-        position="static"
+        position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
+        style={{width:"100vw"}}
       >
         <Toolbar>
           <IconButton

@@ -78,7 +78,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	user := &models.User{}
 	err = json.NewDecoder(r.Body).Decode(user)
-	fmt.Println(user)
 
 	if err != nil {
 		var resp = map[string]interface{}{"status": false, "message": "Invalid request"}
