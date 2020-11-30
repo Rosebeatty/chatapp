@@ -107,7 +107,7 @@ class Home extends React.Component<ContainerProps> {
   render() {
     // let map: google.maps.Map;
     // const loader = new Loader({
-    //   apiKey: "AIzaSyAX6LKg1WvdqijseSjpH6kLu10tyOcnQUc",
+    //   apiKey: "",
     //   version: "weekly"
     //   // ...additionalOptions,
     // })

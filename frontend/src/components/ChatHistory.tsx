@@ -33,7 +33,7 @@ const ChatHistory: React.FC<ChatProps> = (props) => {
           ? <div>{messages}</div> 
           : <div style={{height:"85vh", display: "flex", justifyContent:"center", flexDirection:"column"}}>
               <img src={Man}/>
-              <h1 style={{marginTop:"0", color:"purple"}}>Welcome to Memo</h1>
+              <h1 style={{margin:"0", color:"purple"}}>Welcome to Memo</h1>
               <h4 style={{color:"purple"}}>Chat, Translate & Search </h4>
             </div> }
       </div>
