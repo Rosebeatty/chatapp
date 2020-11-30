@@ -6,7 +6,9 @@ export enum actionTypes {
   ADD_NEW_MESSAGE = "ADD_NEW_MESSAGE",
   DELETE_MESSAGES = "DELETE_MESSAGES",
   GET_USERS = "GET_USERS",
-  USERS_ERROR = "USERS_ERROR"
+  USERS_ERROR = "USERS_ERROR",
+  DOWNLOAD_FILE= "DOWNLOAD_FILE",
+  DOWNLOAD_ERROR = "DOWNLOAD_ERROR"
 }
 
 // export const addMessage = (newChatHistoryObj) => {

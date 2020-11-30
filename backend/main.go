@@ -18,8 +18,8 @@ func main() {
 }
 
 func setupRoutes() {
-	router := mux.NewRouter()
-
+	router := mux.NewRouter().StrictSlash(true)
+	staticDir := "/files/"
 	pool := websocket.NewPool()
 	go pool.Start()
 
@@ -44,6 +44,13 @@ func setupRoutes() {
 	router.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
 		routes.UploadFile(w, r)
 	})
+	router.HandleFunc("/download", func(w http.ResponseWriter, r *http.Request) {
+		routes.DownloadFile(w, r, "Readme.txt", "IMG_1713.jpg")
+	})
+	// Create the route
+	router.
+		PathPrefix(staticDir).
+		Handler(http.StripPrefix(staticDir, http.FileServer(http.Dir("."+staticDir))))
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:3000", "https://localhost:3000", "http://localhost:3001", "https://localhost:3000"}, // All origins
@@ -51,7 +58,7 @@ func setupRoutes() {
 		AllowCredentials: true,
 		AllowedHeaders:   []string{"Accept", "content-type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
 	})
-
+	fmt.Println(router)
 	http.ListenAndServe(":8080", c.Handler(router))
 }
 

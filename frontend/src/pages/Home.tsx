@@ -4,23 +4,23 @@ import "../css/App.css";
 import ChatHistory from '../components/ChatHistory'
 import ChatInput from '../components/ChatInput'
 import Sidebar from '../components/Sidebar'
-// import Searchbar from '../components/Searchbar'
-// import Bottombar from '../components/Bottombar'
 import { RootState } from "../redux/reducers/index"
 import { RootAction, actionTypes } from "../redux/actions/chatActions"
 import { getUsers } from "../redux/actions/userActions"
-// import { ThunkDispatch } from 'redux-thunk'
-// import { Dispatch } from 'redux';
-// import { connectSocket, sendMsg } from "../api";
 import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { withAuth } from "../lib/AuthProvider";
-import axios from 'axios'
+import { downloadFile } from "../redux/actions/downloadActions"
+// import { ThunkDispatch } from 'redux-thunk'
+// import { Dispatch } from 'redux';
+// import { connectSocket, sendMsg } from "../api";
+// import { Loader } from "@googlemaps/js-api-loader"
 
 interface ContainerProps {
   addMessage: (newChatHistoryObj: MessageEvent) => object,
   chatHistory: Array<any>,
   deleteMessages: () => object,
+  downloadFile: () => Promise<boolean>,
   logout: () => any;
   getUsers: () => Promise<boolean>,
   users:any,
@@ -62,15 +62,15 @@ let sendMsg = (msg: object): void => {
   socket.send(JSON.stringify(msg));
 };
 
-
 class Home extends React.Component<ContainerProps> {
   state = {
     sender:"",
     recipient:"",
-    file:false
+    download:false
   }
+
   send =(event: React.KeyboardEvent): void => {
-    let obj = {body: (event.target as HTMLTextAreaElement).value, recipient: this.state.recipient, sender: this.state.sender}
+    let obj = {body: (event.target as HTMLTextAreaElement).value, recipient: this.state.recipient, sender: this.state.sender, download: this.state.download}
     if(event.key === 'Enter') {
       sendMsg(obj);
       (event.target as HTMLTextAreaElement).value = "";
@@ -78,7 +78,7 @@ class Home extends React.Component<ContainerProps> {
   }
 
   download = (bool) => {
-    this.setState({file:bool})
+    this.setState({download: bool})
   }
 
   componentDidMount(): void {
@@ -103,15 +103,29 @@ class Home extends React.Component<ContainerProps> {
       this.props.addMessage(msg)
     });
   }
-
+  
   render() {
+    // let map: google.maps.Map;
+    // const loader = new Loader({
+    //   apiKey: "AIzaSyAX6LKg1WvdqijseSjpH6kLu10tyOcnQUc",
+    //   version: "weekly"
+    //   // ...additionalOptions,
+    // })
+    
+    // loader.load().then(() => {
+    //   map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
+    //     center: { lat: -34.397, lng: 150.644 },
+    //     zoom: 8,
+    //   });
+    // })
     return (
       <div className="App">
         <Sidebar sendId={this.sendId} users={this.props.users} logout={this.props.logout} />
         <div className="right-section">
           <div id="chat-section">
-            <ChatHistory file={this.state.file} chatHistory={this.props.chatHistory} />
+            <ChatHistory downloadFile={this.props.downloadFile} chatHistory={this.props.chatHistory} />
             <ChatInput download={this.download} send={this.send} />
+            <div id="map"></div>
           </div>
         </div>
         {/* <footer style={{position:"fixed", bottom:"0", width:"100vw", height:"2vh", margin:"0 auto"}}>2020</footer> */}
@@ -132,6 +146,8 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch({type: actionTypes.DELETE_MESSAGES}),
     addMessage: (newChatHistoryObj: MessageEvent) =>
       dispatch({type: actionTypes.ADD_NEW_MESSAGE, payload: newChatHistoryObj}),
+      downloadFile: async () =>
+      await dispatch(downloadFile()),
     getUsers: async () =>
       await dispatch(getUsers())
   })

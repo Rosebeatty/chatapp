@@ -27,8 +27,8 @@ const ChatInput = (props: InputProp) => {
     e.preventDefault()
     SetFile(e.target.files[0])
     SetMessage(e.target.files[0].name)
+    props.download(true)
   }
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,16 +50,16 @@ const ChatInput = (props: InputProp) => {
         config
       )
       .then((res) => {
+        props.download(false)
         console.log(res)
       })
       .catch(err => {
         console.log(err)
       })
   }
-  props.download(true)
 }
 
-  const handleKeyDown = (ev) => {
+const handleKeyDown = (ev) => {
     props.send(ev)
     if (file && ev.key ==='Enter'){
      ev.preventDefault()
@@ -89,7 +89,7 @@ const ChatInput = (props: InputProp) => {
 
   return (
     <div>
-      {emojiToggle ? (
+      { emojiToggle ? (
         <Picker
           i18n={{
             search: "Search",
@@ -101,15 +101,14 @@ const ChatInput = (props: InputProp) => {
           onSelect={(emoji) => SetMessage(message + emoji.native)}
           style={{ position: "absolute", bottom: "20px", left: "20px" }}
         />
-      ) : null}
+      ) : null }
       <div className="chat-input">
           <form
-                  // action="http://localhost:8080/upload"
-                  // method="post"
+                  style={{display: "flex", alignItems: "center"}}
                   onSubmit={handleSubmit}
                   encType="multipart/form-data"
                 >
-                  <label htmlFor="file-icon">
+                  <label htmlFor="file-icon" style={{paddingRight:"1em", display: "flex", color:"white", cursor:"pointer"}}>
                     <AttachFileIcon />
                   </label>
                   <input
@@ -121,9 +120,9 @@ const ChatInput = (props: InputProp) => {
                       display:"none"
                     }}
                   />
-                   <button ref={formRef} value="upload" type="submit" style={{display: 'none'}}/>
+                  <button ref={formRef} value="upload" type="submit" style={{display: 'none'}}/>
           </form>
-        <button type="button" className="toggle-emoji" onClick={triggerPicker}>
+        <button type="button" className="toggle-emoji" onClick={triggerPicker} style={{cursor:"pointer", borderRadius:"10px", border:"none"}}>
           <Emoji emoji={{ id: "santa", skin: 3 }} size={18} />
         </button>
         <input

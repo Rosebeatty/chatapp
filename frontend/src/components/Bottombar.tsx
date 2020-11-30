@@ -12,6 +12,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import Search from './Search'
 import GTranslateIcon from '@material-ui/icons/GTranslate';
 import SearchIcon from '@material-ui/icons/Search';
+import  Translate from './Translate';
 
 const useStyles = makeStyles({
   list: {
@@ -29,9 +30,10 @@ export default function SwipeableTemporaryDrawer() {
   const [state, setState] = React.useState({
     top: false,
     bottom: false,
+    search:false
   });
 
-  const toggleDrawer = (anchor: Anchor, open: boolean) => (
+  const toggleDrawer = (anchor: Anchor, open: boolean, search: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent,
   ) => {
     if (
@@ -43,7 +45,7 @@ export default function SwipeableTemporaryDrawer() {
       return;
     }
 
-    setState({ ...state, [anchor]: open });
+    setState({ ...state, [anchor]: open, search });
   };
 
   const list = (anchor: Anchor) => (
@@ -73,7 +75,9 @@ export default function SwipeableTemporaryDrawer() {
         ))}
       </List> */}
       <List>
-          <Search />
+        { state.search 
+        ? <Search />
+        : <Translate/> }
       </List>
     </div>
   );
@@ -83,14 +87,14 @@ export default function SwipeableTemporaryDrawer() {
       {(['bottom'] as Anchor[]).map((anchor) => (
         <React.Fragment key={anchor}>
           <div style={{display:"flex", justifyContent:"space-around", flexDirection:"row", height:"2.8em", alignItems:"center",width:"12vw", paddingLeft:"1vw"}}>
-          <SearchIcon style={{fontSize:"1.5em"}} onClick={toggleDrawer(anchor, true)}></SearchIcon>
-          <GTranslateIcon style={{fontSize:"1.5em"}} onClick={toggleDrawer(anchor, true)}></GTranslateIcon>
+          <SearchIcon style={{fontSize:"1.5em", color:"white", cursor:"pointer"}} onClick={toggleDrawer(anchor, true, true)}></SearchIcon>
+          <GTranslateIcon style={{fontSize:"1.5em", color:"white", cursor:"pointer"}} onClick={toggleDrawer(anchor, true, false)}></GTranslateIcon>
           </div>
           <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-            onOpen={toggleDrawer(anchor, true)}
+            onClose={toggleDrawer(anchor, false, false)}
+            onOpen={toggleDrawer(anchor, true, true)}
           >
             {list(anchor)}
           </SwipeableDrawer>

@@ -20,6 +20,7 @@ type Message struct {
 	Sender    string `json:"sender"`
 	Recipient string `json:"recipient"`
 	Body      string `json:"body"`
+	Download  bool   `json:"download"`
 	// Type      int    `json:"type"`
 }
 
