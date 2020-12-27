@@ -1,5 +1,15 @@
 .App {
   text-align: center;
+  font-family: 'Fredoka One', cursive;
+}
+
+p, div, h1, h2, h3, h4, h5, h6, .MuiTypography-body1, .MuiTypography-h6 {
+  font-family: 'Fredoka One', cursive !important;
+
+}
+
+.makeStyles-hide-6 {
+  display: block !important;
 }
 
 .App-logo {

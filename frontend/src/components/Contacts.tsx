@@ -1,4 +1,5 @@
 import React from "react";
+import { useState }from "react";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -22,14 +23,25 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Contacts = (props) => {
-  const classes = useStyles();
-  const users = props.users[0];
 
+const Contacts = (props) => {
+  const users = props.users[0];
+  const classes = useStyles();
+  const [contacts, setContacts] = useState(props.users[0])
+  const filterContacts = (e) => {
+      let con = users.filter(user => user.username.toLowerCase().includes(e.target.value.toLowerCase()))
+      setContacts(con)
+  }
+let x = []
+if (users) {x = users}
+if (contacts) {x = contacts}
   return (
     <div>
-      {users ? (
-        users.map((user, i) => {
+      <form>
+        <input style={{width: "100%", padding: "0.5em"}} placeholder="Search people..." onChange={filterContacts} type="input"/>
+      </form>
+      { x ? (
+         x.map((user, i) => {
           return (
             <List onClick={() => props.sendId(user.username)} key={i} className={classes.root}>
               <ListItem alignItems="flex-start">

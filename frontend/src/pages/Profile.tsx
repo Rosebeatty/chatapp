@@ -10,13 +10,24 @@ interface ProfileProps {
 
 
 class Profile extends React.Component<ProfileProps> {
-    render() {
+    state = {
+        file: null
+    }
+    onChange = (event) => {
+        this.setState({file: event.target.files[0]})
+    }
 
+    render() {
         return (
             <div>
                 <Sidebar logout={this.props.logout}/>
                 <div style={{display:"flex", flexDirection:"column", alignItems:"center", height:"60vh", backgroundColor:"purple"}}>
-                    <Avatar style={{padding:"6em", margin: "1.7em 0em 1em 0em", backgroundColor:"#212121"}} alt="Remy Sharp"><img src="/favicon.ico"/> </Avatar>
+                    <Avatar style={{padding:"6em", margin: "1.7em 0em 1em 0em", backgroundColor:"#212121"}} alt="Remy Sharp"> 
+                        <form>
+                            <label htmlFor="pp-input" className="hidden"><img src={this.state.file}/><span>Upload a profile picture</span></label>
+                            <input id="pp-input" type="file" onChange={this.onChange} style={{display:"none"}}/>
+                        </form>
+                    </Avatar>
                     <div style={{display:"flex", flexDirection:"column"}}>
                         <h1 style={{margin:"0", color:"white"}}>Rose Beatty</h1>
                         <p style={{margin:"0", color:"lightgreen"}}>Online</p>

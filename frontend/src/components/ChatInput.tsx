@@ -19,8 +19,8 @@ const ChatInput = (props: InputProp) => {
   const [download, SetDownload] = React.useState(false);
   const [file, SetFile] = React.useState(null);
   const [emojiToggle, SetEmojiToggle] = React.useState(false);
-  let node = useRef<HTMLInputElement>();
-  const formRef = React.useRef(null);
+  const node = useRef<HTMLInputElement>();
+  const formRef = useRef(null);
   
 
   const onChange = (e) => {
@@ -65,6 +65,9 @@ const handleKeyDown = (ev) => {
      ev.preventDefault()
      formRef.current.click()
     }
+    if (ev.key ==='Enter'){
+      SetMessage('')
+    }
  }
 
   const triggerPicker = (event) => {
@@ -72,35 +75,36 @@ const handleKeyDown = (ev) => {
     SetEmojiToggle(!emojiToggle);
   };
 
-  // const handleClickOutside = event => {
-  //   const domNode = ReactDOM.findDOMNode(this);
-  //   if (!domNode || !domNode.contains(event.target)) {
-  //     SetEmojiToggle(!emojiToggle)
-  //   }
-  // }
+  const handleClickOutside = (event) => {
+    const chat = document.getElementById("chat-section")
+    if (event.target === chat) {
+      SetEmojiToggle(false)
+    }
+  }
 
-  // // below is the same as componentDidMount and componentDidUnmount
-  // useEffect(() => {
-  //     document.addEventListener('click', handleClickOutside, true);
-  //     return () => {
-  //         document.removeEventListener('click', handleClickOutside, true);
-  //     };
-  // }, []);
+  // below is the same as componentDidMount and componentDidUnmount
+  useEffect(() => {
+      document.addEventListener('click', handleClickOutside, false);
+      return () => {
+        document.removeEventListener('click', handleClickOutside, false);
+      };
+  }, []);
 
   return (
     <div>
       { emojiToggle ? (
-        <Picker
-          i18n={{
-            search: "Search",
-            categories: { search: "Search Results", recent: "Recent" },
-          }}
-          ref={node}
-          title="Select emojis!"
-          emoji="point_up"
-          onSelect={(emoji) => SetMessage(message + emoji.native)}
-          style={{ position: "absolute", bottom: "20px", left: "20px" }}
-        />
+        <div ref={node} className="emoji">
+          <Picker
+            i18n={{
+              search: "Search",
+              categories: { search: "Search Results", recent: "Recent" },
+            }}
+            title="Select emojis!"
+            emoji="point_up"
+            onSelect={(emoji) => SetMessage(message + emoji.native)}
+            style={{ position: "absolute", bottom: "20px", left: "20px" }}
+          />
+        </div>
       ) : null }
       <div className="chat-input">
           <form

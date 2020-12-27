@@ -25,6 +25,7 @@
     "react-scripts-ts": "^4.0.8",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "simple-peer": "^9.9.3",
     "ts-jest": "26.4.1",
     "typesafe-actions": "^5.1.0",
     "typescript": "^4.0.3",

@@ -11,6 +11,8 @@ import Settings from './pages/Settings';
 import AnonRoute from './components/AnonRoute';
 import { withRouter } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+import Video from './components/Video'
+import goToRoomInput from './components/StartCall'
 
 class App extends React.Component {
   render() {
@@ -22,6 +24,8 @@ class App extends React.Component {
           <PrivateRoute path={getPath('home')} exact component={Home} />
           <PrivateRoute path={getPath('profile')} exact component={Profile} />
           <PrivateRoute path={getPath('settings')} exact component={Settings} />
+          <PrivateRoute path="/" exact component={goToRoomInput}/>
+          <PrivateRoute path="/:roomId" exact component={Video}/>
         </Switch>
       </div>
     );

@@ -2,7 +2,6 @@
 import * as React from "react";
 import "../css/App.css";
 import ChatHistory from '../components/ChatHistory'
-import ChatInput from '../components/ChatInput'
 import Sidebar from '../components/Sidebar'
 import { RootState } from "../redux/reducers/index"
 import { RootAction, actionTypes } from "../redux/actions/chatActions"
@@ -55,6 +54,11 @@ let connectSocket = (cb: Message): void => {
     console.log("Socket Error: ", error);
   };
 };
+
+// socket.addEventListener('join', function (event) {
+//   if(! rooms[room][uuid]) rooms[room][uuid] = socket 
+// });
+
 
 let sendMsg = (msg: object): void => {
   console.log("sending msg: ", msg);
@@ -123,8 +127,7 @@ class Home extends React.Component<ContainerProps> {
         <Sidebar sendId={this.sendId} users={this.props.users} logout={this.props.logout} />
         <div className="right-section">
           <div id="chat-section">
-            <ChatHistory downloadFile={this.props.downloadFile} chatHistory={this.props.chatHistory} />
-            <ChatInput download={this.download} send={this.send} />
+            <ChatHistory download={this.download} send={this.send} sender={this.state.sender} recipient={this.state.recipient} downloadFile={this.props.downloadFile} chatHistory={this.props.chatHistory} />
             <div id="map"></div>
           </div>
         </div>

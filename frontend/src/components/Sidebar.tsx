@@ -196,8 +196,8 @@ const Sidebar: React.FC<UserProps> = (props) => {
         </div>
         <Divider />
         { window.location.pathname == '/' ?
-        <Contacts sendId={props.sendId} users={props.users} />
-        : null
+          <Contacts sendId={props.sendId} users={props.users} />
+        : <a href="/" style={{cursor:"pointer"}}>Go back</a>
         }
       </Drawer>
       <main
