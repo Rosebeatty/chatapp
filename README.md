@@ -8,6 +8,8 @@ A real-time chat app created with Go, React, Redux, Typescript, WebSocket and Ma
 
 ## In the Frontend Repository
 
+Make sure docker is installed
+
 Build a docker image:
 
 ### `docker build -t chatfrontend .`
