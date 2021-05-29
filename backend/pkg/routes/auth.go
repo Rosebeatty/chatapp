@@ -10,6 +10,7 @@ import (
 	"github.com/golang/chatapp/pkg/utils"
 	"github.com/gorilla/sessions"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -48,13 +49,12 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	err = session.Save(r, w)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
 	}
 
 	client, ctx, cancel := utils.ConnectDB()
 	defer cancel()
 	defer client.Disconnect(ctx)
-	// user.ID = primitive.NewObjectID()
+	user.ID = primitive.NewObjectID()
 
 	res, err := client.Database("chatapp").Collection("users").InsertOne(ctx, user)
 	if err != nil {
@@ -63,7 +63,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(res)
 
 	json.NewEncoder(w).Encode(user)
-	return
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -73,7 +72,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	session, err := store.Get(r, "sess")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
 	}
 
 	user := &models.User{}
@@ -82,7 +80,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		var resp = map[string]interface{}{"status": false, "message": "Invalid request"}
 		json.NewEncoder(w).Encode(resp)
-		return
 	}
 
 	dbUser := &models.User{}
@@ -99,7 +96,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if passErr != nil {
 		log.Println(passErr)
 		w.Write([]byte(`{"response":"Wrong Password!"}`))
-		return
 	}
 
 	u := utils.User{
@@ -112,11 +108,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	err = session.Save(r, w)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
 	}
 	json.NewEncoder(w).Encode(u)
 
-	return
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {

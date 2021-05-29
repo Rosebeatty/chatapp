@@ -10,4 +10,30 @@
   
 #chat-section {
   height:90vh;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.MessageScroll {
+  height: 500px;
+    overflow-y: scroll;
+    padding-top: 12vh;
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    direction: rtl;
+    border-bottom: 1px solid #ccc;
+    width:100vw;
+}
+
+@media screen and (max-width: 769px) {
+  .MessageScroll {
+  padding-top:10vh;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .MessageScroll {
+  padding-top:8vh;
+  }
 }

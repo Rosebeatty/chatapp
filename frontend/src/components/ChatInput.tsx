@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useRef, useEffect } from "react";
-import ReactDOM from "react-dom";
 import "../css/ChatInput.css";
 import Bottombar from "./Bottombar";
 import "emoji-mart/css/emoji-mart.css";
@@ -61,6 +60,7 @@ const ChatInput = (props: InputProp) => {
 
 const handleKeyDown = (ev) => {
     props.send(ev)
+    props.download(false)
     if (file && ev.key ==='Enter'){
      ev.preventDefault()
      formRef.current.click()
@@ -77,9 +77,19 @@ const handleKeyDown = (ev) => {
 
   const handleClickOutside = (event) => {
     const chat = document.getElementById("chat-section")
-    if (event.target === chat) {
-      SetEmojiToggle(false)
-    }
+    const chatbox = document.getElementById("chatbox")
+    const message = document.querySelectorAll(".Message")
+    if (
+      event.target === chat 
+      || event.target === chatbox 
+      ) {
+        SetEmojiToggle(false)
+      }
+      return  message.forEach(m => {
+              if (event.target === m) {
+                SetEmojiToggle(false)
+              }
+            })
   }
 
   // below is the same as componentDidMount and componentDidUnmount
@@ -112,7 +122,7 @@ const handleKeyDown = (ev) => {
                   onSubmit={handleSubmit}
                   encType="multipart/form-data"
                 >
-                  <label htmlFor="file-icon" style={{paddingRight:"1em", display: "flex", color:"white", cursor:"pointer"}}>
+                  <label htmlFor="file-icon" style={{ display: "flex", color:"white", cursor:"pointer"}}>
                     <AttachFileIcon />
                   </label>
                   <input
@@ -126,7 +136,7 @@ const handleKeyDown = (ev) => {
                   />
                   <button ref={formRef} value="upload" type="submit" style={{display: 'none'}}/>
           </form>
-        <button type="button" className="toggle-emoji" onClick={triggerPicker} style={{cursor:"pointer", borderRadius:"10px", border:"none"}}>
+        <button type="button" className="toggle-emoji" onClick={triggerPicker} style={{backgroundColor:"white", cursor:"pointer", borderRadius:"50px", border:"none", marginRight:"0.5em"}}>
           <Emoji emoji={{ id: "santa", skin: 3 }} size={18} />
         </button>
         <input

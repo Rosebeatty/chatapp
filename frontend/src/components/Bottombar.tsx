@@ -13,6 +13,7 @@ import Search from './Search'
 import GTranslateIcon from '@material-ui/icons/GTranslate';
 import SearchIcon from '@material-ui/icons/Search';
 import  Translate from './Translate';
+import SendIcon from '@material-ui/icons/Send';
 
 const useStyles = makeStyles({
   list: {
@@ -86,9 +87,10 @@ export default function SwipeableTemporaryDrawer() {
     <div>
       {(['bottom'] as Anchor[]).map((anchor) => (
         <React.Fragment key={anchor}>
-          <div style={{display:"flex", justifyContent:"space-around", flexDirection:"row", height:"2.8em", alignItems:"center",width:"12vw", paddingLeft:"1vw"}}>
-          <SearchIcon style={{fontSize:"1.5em", color:"white", cursor:"pointer"}} onClick={toggleDrawer(anchor, true, true)}></SearchIcon>
-          <GTranslateIcon style={{fontSize:"1.5em", color:"white", cursor:"pointer"}} onClick={toggleDrawer(anchor, true, false)}></GTranslateIcon>
+          <div style={{display:"flex", justifyContent:"space-around", flexDirection:"row", height:"2.8em", alignItems:"center",width:"6vw", paddingLeft:"1vw"}}>
+          {/* <SearchIcon style={{fontSize:"1.5em", color:"white", cursor:"pointer"}} onClick={toggleDrawer(anchor, true, true)}></SearchIcon>
+          <GTranslateIcon style={{fontSize:"1.5em", color:"white", cursor:"pointer"}} onClick={toggleDrawer(anchor, true, false)}></GTranslateIcon> */}
+            <SendIcon style={{color:"white"}} />
           </div>
           <SwipeableDrawer
             anchor={anchor}

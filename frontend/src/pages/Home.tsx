@@ -5,11 +5,13 @@ import ChatHistory from '../components/ChatHistory'
 import Sidebar from '../components/Sidebar'
 import { RootState } from "../redux/reducers/index"
 import { RootAction, actionTypes } from "../redux/actions/chatActions"
-import { getUsers } from "../redux/actions/userActions"
+import { getUsers, getContacts } from "../redux/actions/userActions"
+import { getUser } from "../redux/actions/uActions"
 import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { withAuth } from "../lib/AuthProvider";
 import { downloadFile } from "../redux/actions/downloadActions"
+import axios from 'axios'
 // import { ThunkDispatch } from 'redux-thunk'
 // import { Dispatch } from 'redux';
 // import { connectSocket, sendMsg } from "../api";
@@ -17,14 +19,18 @@ import { downloadFile } from "../redux/actions/downloadActions"
 
 interface ContainerProps {
   addMessage: (newChatHistoryObj: MessageEvent) => object,
+  saveMessage: (username, newChatHistoryObj: MessageEvent) => object,
   chatHistory: Array<any>,
   deleteMessages: () => object,
   downloadFile: () => Promise<boolean>,
   logout: () => any;
   getUsers: () => Promise<boolean>,
+  getContacts: (username: string) => Promise<boolean>,
   users:any,
   sendId: (id:any) => any,
-  user: any
+  user: any,
+  usr: any,
+  getUser: (username) => object
 }
 
 interface Message {
@@ -70,7 +76,7 @@ class Home extends React.Component<ContainerProps> {
   state = {
     sender:"",
     recipient:"",
-    download:false
+    download:false,
   }
 
   send =(event: React.KeyboardEvent): void => {
@@ -86,25 +92,33 @@ class Home extends React.Component<ContainerProps> {
   }
 
   componentDidMount(): void {
-    console.log(navigator.geolocation.getCurrentPosition(function(position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-    }));
-    this.props.getUsers()
+    // console.log(navigator.geolocation.getCurrentPosition(function(position) {
+    //   console.log("Latitude is :", position.coords.latitude);
+    //   console.log("Longitude is :", position.coords.longitude);
+    // }));
+    // this.props.getUser(this.props.user.Username)
+    this.props.getContacts(this.props.user.Username)
   }
   
   sendId = (user) => {
-    console.log(user);
+    console.log(this.props.user);
     this.props.deleteMessages();
     let recipient = user.toString();
     this.setState({sender: this.props.user.Username, recipient: recipient})
     this.connectS(this.props.user.Username);
+    return axios.post(`http://localhost:8080/addFriend/${this.props.user.Username}/${user}`)
+      .then(res => {
+        this.props.getUser(recipient)
+        console.log(res)
+      })
+      .catch(err => console.log(err))
   }
 
   connectS = (username) => {
     socket = new WebSocket(`ws://localhost:8080/ws/${username}`);
     connectSocket((msg: MessageEvent) => {
       this.props.addMessage(msg)
+      // this.props.saveMessage(username, msg)
     });
   }
   
@@ -124,11 +138,11 @@ class Home extends React.Component<ContainerProps> {
     // })
     return (
       <div className="App">
-        <Sidebar sendId={this.sendId} users={this.props.users} logout={this.props.logout} />
+        <Sidebar {...this.props} getUsers={this.props.getUsers} getContacts={this.props.getContacts} profile={false} sendId={this.sendId} users={this.props.users} logout={this.props.logout} />
         <div className="right-section">
           <div id="chat-section">
-            <ChatHistory download={this.download} send={this.send} sender={this.state.sender} recipient={this.state.recipient} downloadFile={this.props.downloadFile} chatHistory={this.props.chatHistory} />
-            <div id="map"></div>
+            <ChatHistory user={this.props.usr[0]} username={this.props.user.Username} download={this.download} send={this.send} sender={this.state.sender} recipient={this.state.recipient} downloadFile={this.props.downloadFile} chatHistory={this.props.chatHistory} /> 
+            {/* <div id="map"></div> */}
           </div>
         </div>
         {/* <footer style={{position:"fixed", bottom:"0", width:"100vw", height:"2vh", margin:"0 auto"}}>2020</footer> */}
@@ -140,7 +154,8 @@ class Home extends React.Component<ContainerProps> {
 const mapStateToProps = (state: RootState) => {
   return {
     chatHistory: state.chat,
-    users: state.user
+    users: state.user,
+    usr: state.usr
   }
 }
 
@@ -148,11 +163,17 @@ const mapDispatchToProps = (dispatch) => ({
     deleteMessages: () =>
       dispatch({type: actionTypes.DELETE_MESSAGES}),
     addMessage: (newChatHistoryObj: MessageEvent) =>
-      dispatch({type: actionTypes.ADD_NEW_MESSAGE, payload: newChatHistoryObj}),
+      dispatch({type: actionTypes.ADD_MESSAGE, payload: newChatHistoryObj}),
+    saveMessage: (username: string, newChatHistoryObj: MessageEvent) =>
+      dispatch({type: actionTypes.SAVE_MESSAGE, payload: username, newChatHistoryObj}),
       downloadFile: async () =>
       await dispatch(downloadFile()),
     getUsers: async () =>
-      await dispatch(getUsers())
+      await dispatch(getUsers()),
+    getUser: async (username) =>
+      await dispatch(getUser(username)),
+    getContacts: async (username) =>
+      await dispatch(getContacts(username))
   })
 
 export default compose(connect(mapStateToProps, mapDispatchToProps), withAuth)(Home);

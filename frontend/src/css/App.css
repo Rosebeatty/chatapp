@@ -45,6 +45,20 @@ p, div, h1, h2, h3, h4, h5, h6, .MuiTypography-body1, .MuiTypography-h6 {
   position: fixed;
 }
 
+.onEnter {
+  display: none;
+}
+
+.paper {
+  position: absolute;
+  width: 400;
+  background-color: white;
+  border: 2px solid #000;
+  box-shadow: 1px;
+  padding: 3em 4em;
+  text-align: center;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -53,3 +67,4 @@ p, div, h1, h2, h3, h4, h5, h6, .MuiTypography-body1, .MuiTypography-h6 {
     transform: rotate(360deg);
   }
 }
+

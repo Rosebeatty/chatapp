@@ -6,6 +6,10 @@
     padding: 10px 20px;
     border-radius: 5px;
     clear: both;
+    height: 100%;
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    direction: ltr;
   }
 
  .Message .me {

@@ -21,7 +21,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Contacts from './Contacts'
 import Menu from '@material-ui/core/Menu';
-
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 const drawerWidth = 240;
 
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
+      backgroundColor:"#666DA3"
     },
     appBarShift: {
       width: `calc(100% - ${drawerWidth}px)`,
@@ -67,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(0, 1),
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
-      justifyContent: "flex-end",
+      justifyContent: "space-between",
     },
     content: {
       flexGrow: 1,
@@ -91,13 +93,19 @@ const useStyles = makeStyles((theme: Theme) =>
 interface UserProps {
     users?: any,
     logout: () => any,
-    sendId?: (id) => any
+    sendId?: (id) => any,
+    profile: boolean,
+    user?: any,
+    getUsers?: () => Promise<boolean>
+    getContacts?: (username: string) => Promise<boolean>
 }
 
 const Sidebar: React.FC<UserProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [add, setAdd] = React.useState(true);
+  const [placeholder, setPlaceholder] = React.useState("Search contacts...")
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openit = Boolean(anchorEl);
 
@@ -122,6 +130,27 @@ const Sidebar: React.FC<UserProps> = (props) => {
     setOpen(false);
   };
 
+  const findFriends = () => {
+    let searchbar = document.getElementById('searchbar')
+    setTimeout(() => {
+      setPlaceholder("Search everyone...")
+    }, 400)
+    searchbar.focus()
+    props.getUsers()
+    setAdd(false)
+    
+  }
+
+  const showContacts = () => {
+    let searchbar = document.getElementById('searchbar')
+    setTimeout(() => {
+      setPlaceholder("Search contacts...")
+    }, 400)
+    searchbar.focus()
+    props.getContacts(props.user.Username)
+    setAdd(true)
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -133,17 +162,19 @@ const Sidebar: React.FC<UserProps> = (props) => {
         style={{width:"100vw"}}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
+          {!props.profile 
+            ? <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                className={clsx(classes.menuButton, open && classes.hide)}
+              >
+              <MenuIcon />
+              </IconButton>
+            : <a href="/" style={{cursor:"pointer", textDecoration:"none", color:"white"}}>Go back</a> }
           <Typography variant="h6"  className={classes.title}>
-            MEMO
+            <a href="/" style={{cursor:"pointer", textDecoration:"none", color:"white"}}>MEMO</a>
           </Typography>
           <div>
               <IconButton
@@ -186,7 +217,16 @@ const Sidebar: React.FC<UserProps> = (props) => {
         }}
       >
         <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
+          {add ? 
+            <IconButton style={{justifyContent: "flex-start"}} onClick={findFriends}>
+              <AddIcon color="primary"/>
+            </IconButton>
+          : 
+          <IconButton style={{justifyContent: "flex-start"}} onClick={showContacts}>
+            <RemoveIcon color="primary"/>
+          </IconButton>
+          }
+          <IconButton style={{justifyContent: "flex-end"}} onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
             ) : (
@@ -195,10 +235,7 @@ const Sidebar: React.FC<UserProps> = (props) => {
           </IconButton>
         </div>
         <Divider />
-        { window.location.pathname == '/' ?
-          <Contacts sendId={props.sendId} users={props.users} />
-        : <a href="/" style={{cursor:"pointer"}}>Go back</a>
-        }
+          {props.users ? <Contacts user={props.user.Username} {...props} placeholder={placeholder} sendId={props.sendId} users={props.users} /> : null}
       </Drawer>
       <main
         style={{ padding: "0" }}

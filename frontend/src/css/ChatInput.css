@@ -3,19 +3,25 @@
     display: block;
     margin: auto;
     display: flex;
-    justify-content:center;
+    justify-content:space-around;
     position:fixed;
     bottom: 0vh;
-    background-color: #212121;
+    background-color: #666DA3;
     padding: 0.8em;
 }
-    .chat-input input {
-      padding: 10px;
-      margin: 0;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      width: 80%;
-      box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
+.chat-input input {
+    padding: 10px;
+    margin: 0;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    width: 80vw;
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
 }
+
+@media (max-width: 750px) { 
+    .chat-input input {
+        width: 58vw;
+    }
+   }

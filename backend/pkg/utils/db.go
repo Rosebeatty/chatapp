@@ -11,7 +11,7 @@ import (
 )
 
 func ConnectDB() (*mongo.Client, context.Context, context.CancelFunc) {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://rose:bbr@cluster0.jthgd.mongodb.net/chatapp?retryWrites=true&w=majority"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://rose:bbr@cluster0.jthgd.mongodb.net/chatapp?retryWrites=true&w=majority&tlsInsecure=true"))
 	if err != nil {
 		log.Fatal(err)
 	}
